@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Family Kitchen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6ec;
+      --warm-white: #fffaf3;
+      --parchment: #f0e6d0;
+      --tan: #d4b896;
+      --brown: #8b5e3c;
+      --dark-brown: #4a2e1a;
+      --rust: #c0622f;
+      --olive: #7a8c4e;
+      --text: #2d1f0e;
+      --muted: #8a7060;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--text);
+      font-family: 'Lora', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      background: var(--dark-brown);
+      padding: 60px 20px 50px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, #7a3a1a55 0%, transparent 70%);
+    }
+
+    .header-border {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, var(--tan) 12px, var(--tan) 24px);
+    }
+
+    .site-name {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(14px, 3vw, 18px);
+      color: var(--tan);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 8vw, 80px);
+      color: var(--warm-white);
+      line-height: 1.1;
+      position: relative;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--tan);
+    }
+
+    .header-sub {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--tan);
+      font-size: clamp(14px, 2.5vw, 18px);
+      margin-top: 14px;
+      opacity: 0.8;
+    }
+
+    /* ── NAV / FILTER BAR ── */
+    .filter-bar {
+      background: var(--parchment);
+      border-bottom: 2px solid var(--tan);
+      padding: 16px 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(74,46,26,0.12);
+    }
+
+    .filter-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      background: transparent;
+      border: 1.5px solid var(--brown);
+      color: var(--brown);
+      padding: 6px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-btn:hover { background: var(--brown); color: var(--cream); }
+    .filter-btn.active { background: var(--dark-brown); border-color: var(--dark-brown); color: var(--cream); }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      background: var(--warm-white);
+      padding: 30px 20px 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-input {
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      background: var(--cream);
+      border: 1.5px solid var(--tan);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 440px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--brown);
+      box-shadow: 0 0 0 3px rgba(139,94,60,0.15);
+    }
+
+    .search-input::placeholder { color: var(--muted); font-style: italic; }
+
+    /* ── RECIPE GRID ── */
+    .grid-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .section-label {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--rust);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--tan);
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    /* ── RECIPE CARD ── */
+    .card {
+      background: var(--warm-white);
+      border-radius: 4px;
+      border: 1px solid var(--tan);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      box-shadow: 3px 3px 0 var(--tan);
+    }
+
+    .card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--brown);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: var(--parchment);
+      font-size: 70px;
+      text-align: center;
+      line-height: 180px;
+    }
+
+    .card-body {
+      padding: 20px 22px 24px;
+    }
+
+    .card-tag {
+      font-family: 'Caveat', cursive;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      line-height: 1.25;
+      color: var(--dark-brown);
+      margin-bottom: 8px;
+    }
+
+    .card-author {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .card-author span { color: var(--olive); }
+
+    .card-meta {
+      display: flex;
+      gap: 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .card-meta span::before { margin-right: 4px; }
+
+    /* ── MODAL OVERLAY ── */
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(26,14,5,0.75);
+      z-index: 200;
+      overflow-y: auto;
+      padding: 40px 16px;
+      backdrop-filter: blur(3px);
+    }
+
+    .overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+    .modal {
+      background: var(--warm-white);
+      max-width: 720px;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid var(--tan);
+      box-shadow: 8px 8px 0 var(--brown);
+      animation: modalIn 0.3s ease;
+      position: relative;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover { color: var(--rust); }
+
+    .modal-hero {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      background: var(--parchment);
+      font-size: 90px;
+      text-align: center;
+      line-height: 240px;
+    }
+
+    .modal-body {
+      padding: 32px 36px 40px;
+    }
+
+    .modal-tag {
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 8px;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 40px);
+      color: var(--dark-brown);
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .modal-author {
+      font-family: 'Caveat', cursive;
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .modal-author span { color: var(--olive); }
+
+    .modal-divider {
+      border: none;
+      border-top: 1px dashed var(--tan);
+      margin: 20px 0;
+    }
+
+    .modal-meta-row {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .meta-item {
+      display: flex; flex-direction: column;
+      gap: 2px;
+    }
+
+    .meta-label {
+      font-family: 'Caveat', cursive;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .meta-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--dark-brown);
+    }
+
+    .modal-note {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 15px;
+      background: var(--parchment);
+      border-left: 3px solid var(--tan);
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 28px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 36px;
+    }
+
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--dark-brown);
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--parchment);
+    }
+
+    .ingredients-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .ingredients-list li {
+      padding: 7px 0;
+      border-bottom: 1px dotted var(--parchment);
+      font-size: 15px;
+      color: var(--text);
+      display: flex;
+      gap: 8px;
+    }
+
+    .ingredients-list li::before {
+      content: '—';
+      color: var(--tan);
+      flex-shrink: 0;
+    }
+
+    .steps-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps-list li {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--tan);
+      line-height: 1;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      display: none;
+    }
+
+    .empty-state .big-emoji { font-size: 56px; margin-bottom: 16px; }
+    .empty-state p { font-style: italic; font-size: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark-brown);
+      color: var(--tan);
+      text-align: center;
+      padding: 28px 20px;
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .no-result { display: none; }
+
+    /* ── PAGE LOAD ANIMATION ── */
+    .card { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <p class="site-name">The Family Kitchen</p>
+  <h1>Recipes From <em>Home</em></h1>
+  <p class="header-sub">Collected with love, one dish at a time</p>
+  <div class="header-border"></div>
+</header>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="breakfast">Breakfast</button>
+  <button class="filter-btn" data-filter="mains">Mains</button>
+  <button class="filter-btn" data-filter="sides">Sides</button>
+  <button class="filter-btn" data-filter="desserts">Desserts</button>
+  <button class="filter-btn" data-filter="drinks">Drinks</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input type="search" class="search-input" id="searchInput" placeholder="Search recipes or family member…" />
+</div>
+
+<!-- GRID -->
+<main class="grid-section">
+  <p class="section-label" id="sectionLabel">All Recipes</p>
+  <div class="recipe-grid" id="recipeGrid"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="big-emoji">🍳</div>
+    <p>No recipes found. Time to cook something new!</p>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Made with ♥ — Add your own recipe to keep the tradition alive
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════
+// RECIPES DATA — Add yours here!
+// ═══════════════════════════════════════════════════
+const RECIPES = [
+  {
+    id: 1,
+    title: "Grandma's Lamb Ouzi",
+    category: "mains",
+    author: "Grandma Fatima",
+    emoji: "🍖",
+    prepTime: "30 min",
+    cookTime: "4 hrs",
+    serves: 8,
+    note: "This is the dish she made every Eid. The secret is slow-cooking it until the meat falls off the bone.",
+    ingredients: [
+      "1 whole leg of lamb",
+      "2 cups long-grain rice",
+      "1 tbsp turmeric",
+      "1 tbsp cinnamon",
+      "1 tbsp cardamom",
+      "1 tsp black pepper",
+      "½ tsp saffron (soaked in water)",
+      "½ cup toasted almonds & raisins",
+      "4 cloves garlic",
+      "Salt to taste",
+      "Rose water — a splash"
+    ],
+    steps: [
+      "Score the lamb and rub generously with turmeric, cinnamon, cardamom, salt, and pepper. Let marinate for at least 2 hours.",
+      "Brown the lamb in a large pot with a little oil, then add 6 cups of water. Bring to a boil and skim the foam.",
+      "Reduce heat and simmer covered for 3–3.5 hours until meat is very tender. Reserve the broth.",
+      "Wash the rice and cook in the reserved lamb broth with saffron water until fluffy.",
+      "Layer the rice in a serving dish, place the lamb on top, and garnish with toasted almonds and raisins. Add a splash of rose water before serving."
+    ]
+  },
+  {
+    id: 2,
+    title: "Baba's Thareed",
+    category: "mains",
+    author: "Uncle Khalid",
+    emoji: "🥣",
+    prepTime: "20 min",
+    cookTime: "1 hr",
+    serves: 6,
+    note: "Prophet's favourite dish, and ours too. Baba made this every Friday lunch.",
+    ingredients: [
+      "500g lamb or chicken, bone-in",
+      "2 medium potatoes, cubed",
+      "2 tomatoes, chopped",
+      "1 zucchini, sliced",
+      "1 onion, diced",
+      "3 tbsp tomato paste",
+      "1 tsp cumin",
+      "1 tsp coriander",
+      "1 tsp baharat spice",
+      "Rgag (thin flatbread) to serve",
+      "Fresh coriander to garnish"
+    ],
+    steps: [
+      "Brown the meat with onion in a pot. Add tomato paste and spices and stir for 2 minutes.",
+      "Add chopped tomatoes and cover with water. Simmer for 30 minutes.",
+      "Add potatoes and zucchini. Continue simmering until vegetables are tender and stew has thickened.",
+      "Tear the rgag bread into pieces and layer at the bottom of a wide dish.",
+      "Ladle the hot stew over the bread, letting it soak through. Garnish with fresh coriander and serve immediately."
+    ]
+  },
+  {
+    id: 3,
+    title: "Luqaimat",
+    category: "desserts",
+    author: "Auntie Maryam",
+    emoji: "🍯",
+    prepTime: "15 min",
+    cookTime: "20 min",
+    serves: 6,
+    note: "The Ramadan treat everyone waits for all year. Crispy outside, fluffy inside, soaked in date syrup.",
+    ingredients: [
+      "2 cups all-purpose flour",
+      "1 packet instant yeast (7g)",
+      "1 cup warm water",
+      "1 tsp sugar",
+      "½ tsp saffron (dissolved in 2 tbsp water)",
+      "Pinch of salt",
+      "Oil for deep frying",
+      "Date syrup (dibs) to serve",
+      "Sesame seeds for topping"
+    ],
+    steps: [
+      "Mix yeast with warm water and sugar. Let sit 5 minutes until frothy.",
+      "Combine flour, salt, and saffron water. Add yeast mixture and stir into a smooth, sticky batter. Cover and rest for 1 hour.",
+      "Heat oil to 180°C. Using a wet spoon, drop small spoonfuls of batter into the oil.",
+      "Fry in batches, turning occasionally, until golden brown all over — about 3–4 minutes.",
+      "Drain on paper towels and pile on a plate. Drizzle generously with date syrup and sprinkle with sesame seeds. Serve warm."
+    ]
+  },
+  {
+    id: 4,
+    title: "Chebeh Rubyan",
+    category: "mains",
+    author: "Grandma Nora",
+    emoji: "🍤",
+    prepTime: "45 min",
+    cookTime: "30 min",
+    serves: 5,
+    note: "Kuwaiti shrimp dumplings — a lot of work but worth every minute. A dish Grandma was famous for.",
+    ingredients: [
+      "500g ground shrimp (peeled)",
+      "1 cup fine rice flour",
+      "½ onion, grated",
+      "2 cloves garlic",
+      "1 tsp cumin",
+      "1 tsp turmeric",
+      "½ tsp chili powder",
+      "Fresh coriander, finely chopped",
+      "Salt & pepper",
+      "Tamarind sauce for serving"
+    ],
+    steps: [
+      "Mix ground shrimp with grated onion, garlic, cumin, turmeric, chili, coriander, salt, and pepper. Refrigerate 15 minutes.",
+      "Make a firm dough with rice flour and a little warm water. Divide into small balls.",
+      "Flatten each dough ball, place a spoonful of shrimp filling in the center, and seal into round dumplings.",
+      "Steam the chebeh over high heat for 25–30 minutes until cooked through.",
+      "Serve hot with tamarind dipping sauce."
+    ]
+  },
+  {
+    id: 5,
+    title: "Karak Chai",
+    category: "drinks",
+    author: "Everyone",
+    emoji: "🍵",
+    prepTime: "5 min",
+    cookTime: "10 min",
+    serves: 4,
+    note: "You're not truly awake until you've had a cup. The cardamom amount is non-negotiable.",
+    ingredients: [
+      "3 cups water",
+      "1 cup evaporated milk",
+      "3 tsp loose black tea (or 3 tea bags)",
+      "4 cardamom pods, cracked",
+      "1 cinnamon stick",
+      "2–3 tsp sugar (to taste)",
+      "A pinch of saffron (optional)"
+    ],
+    steps: [
+      "Bring the water to a boil in a small pot. Add cardamom pods and cinnamon stick.",
+      "Add tea and reduce heat. Simmer for 3–4 minutes until the brew is dark and fragrant.",
+      "Add evaporated milk and sugar. Stir well and bring back to a gentle simmer.",
+      "Simmer for another 3 minutes, allowing the flavors to meld. Add saffron if using.",
+      "Strain into small glasses and serve hot."
+    ]
+  },
+  {
+    id: 6,
+    title: "Balaleet",
+    category: "breakfast",
+    author: "Mama",
+    emoji: "🍳",
+    prepTime: "10 min",
+    cookTime: "25 min",
+    serves: 4,
+    note: "Sweet vermicelli with a fried egg on top — sounds strange, tastes magical. A Gulf breakfast classic.",
+    ingredients: [
+      "200g vermicelli noodles",
+      "2 tbsp ghee",
+      "3 tbsp sugar",
+      "1 tsp ground cardamom",
+      "½ tsp saffron dissolved in 2 tbsp rosewater",
+      "Pinch of turmeric",
+      "4 eggs",
+      "Salt for eggs"
+    ],
+    steps: [
+      "Break vermicelli into pieces and toast in ghee in a pan over medium heat until golden.",
+      "Add just enough water to cover the noodles. Cook until water is absorbed and noodles are tender.",
+      "Stir in sugar, cardamom, turmeric, and saffron rosewater. Mix gently and reduce heat.",
+      "In a separate pan, fry eggs sunny-side up with a pinch of salt.",
+      "Plate the sweet vermicelli and top each portion with a fried egg. Serve immediately."
+    ]
+  },
+  {
+    id: 7,
+    title: "Machboos Deyay",
+    category: "mains",
+    author: "Uncle Ahmed",
+    emoji: "🍗",
+    prepTime: "30 min",
+    cookTime: "1.5 hrs",
+    serves: 6,
+    note: "The national dish, and nobody makes it like Uncle Ahmed. The loomi (dried lime) is the key.",
+    ingredients: [
+      "1 whole chicken, cut into pieces",
+      "2 cups basmati rice",
+      "2 onions, finely sliced",
+      "3 tomatoes, chopped",
+      "3 loomi (dried limes), pierced",
+      "4 cloves garlic",
+      "2 tbsp baharat spice blend",
+      "1 tsp turmeric",
+      "1 tsp cinnamon",
+      "3 tbsp ghee",
+      "Salt to taste",
+      "Fresh parsley to garnish"
+    ],
+    steps: [
+      "Fry onions in ghee until deep golden. Add garlic and all spices; stir 1 minute.",
+      "Add chicken pieces and brown on all sides. Add tomatoes and loomi; stir well.",
+      "Cover with 4 cups water and bring to a boil. Reduce heat and simmer 45 minutes.",
+      "Remove chicken. Add washed rice to the broth and cook on low heat, covered, for 20 minutes until fluffy.",
+      "Return chicken on top of the rice for the last 5 minutes. Serve garnished with parsley."
+    ]
+  },
+  {
+    id: 8,
+    title: "Harees",
+    category: "sides",
+    author: "Grandma Fatima",
+    emoji: "🌾",
+    prepTime: "10 min",
+    cookTime: "2 hrs",
+    serves: 8,
+    note: "Ramadan and Eid are not complete without Harees. Simple ingredients, deep comfort.",
+    ingredients: [
+      "2 cups whole wheat (harees wheat), soaked overnight",
+      "500g lamb (shoulder)",
+      "1 tsp cinnamon",
+      "1 tsp cardamom",
+      "Salt to taste",
+      "2 tbsp ghee to serve",
+      "Cinnamon powder to garnish"
+    ],
+    steps: [
+      "Drain soaked wheat and add to a pot with the lamb and enough water to cover by 5cm. Bring to a boil.",
+      "Add cinnamon, cardamom, and salt. Cover and cook on low heat for 1.5–2 hours, stirring occasionally.",
+      "When the wheat is very soft and the mixture is thick, remove the lamb pieces and shred the meat.",
+      "Return shredded meat to the pot and stir vigorously — or use a hand mixer — until you achieve a smooth, porridge-like consistency.",
+      "Serve in bowls topped with a generous drizzle of ghee and a dusting of cinnamon."
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+let currentFilter = 'all';
+let currentSearch = '';
+
+function renderGrid() {
+  const grid = document.getElementById('recipeGrid');
+  const empty = document.getElementById('emptyState');
+  const label = document.getElementById('sectionLabel');
+
+  let filtered = RECIPES;
+  if (currentFilter !== 'all') filtered = filtered.filter(r => r.category === currentFilter);
+  if (currentSearch.trim()) {
+    const q = currentSearch.toLowerCase();
+    filtered = filtered.filter(r =>
+      r.title.toLowerCase().includes(q) ||
+      r.author.toLowerCase().includes(q) ||
+      r.ingredients.some(i => i.toLowerCase().includes(q))
+    );
+  }
+
+  const catNames = { all:'All Recipes', breakfast:'Breakfast', mains:'Mains & Stews', sides:'Sides & Soups', desserts:'Sweets & Desserts', drinks:'Drinks' };
+  label.textContent = catNames[currentFilter] || 'All Recipes';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map((r, i) => `
+    <article class="card" style="animation-delay:${i * 0.07}s" onclick="openModal(${r.id})" role="button" tabindex="0">
+      <div class="card-img" aria-hidden="true">${r.emoji}</div>
+      <div class="card-body">
+        <p class="card-tag">${r.category}</p>
+        <h2 class="card-title">${r.title}</h2>
+        <p class="card-author">By <span>${r.author}</span></p>
+        <div class="card-meta">
+          <span>⏱ ${r.cookTime}</span>
+          <span>🍽 Serves ${r.serves}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+// ── MODAL ──
+function openModal(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-hero" aria-hidden="true">${r.emoji}</div>
+    <div class="modal-body">
+      <p class="modal-tag">${r.category}</p>
+      <h2 class="modal-title">${r.title}</h2>
+      <p class="modal-author">A recipe from <span>${r.author}</span></p>
+      <div class="modal-meta-row">
+        <div class="meta-item"><span class="meta-label">Prep</span><span class="meta-val">${r.prepTime}</span></div>
+        <div class="meta-item"><span class="meta-label">Cook</span><span class="meta-val">${r.cookTime}</span></div>
+        <div class="meta-item"><span class="meta-label">Serves</span><span class="meta-val">${r.serves}</span></div>
+      </div>
+      ${r.note ? `<p class="modal-note">"${r.note}"</p>` : ''}
+      <hr class="modal-divider"/>
+      <div class="two-col">
+        <div>
+          <h3 class="section-heading">Ingredients</h3>
+          <ul class="ingredients-list">
+            ${r.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+          </ul>
+        </div>
+        <div>
+          <h3 class="section-heading">Instructions</h3>
+          <ol class="steps-list">
+            ${r.steps.map((s, i) => `<li><span class="step-num">${i+1}</span><span>${s}</span></li>`).join('')}
+          </ol>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── EVENTS ──
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('overlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderGrid();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  currentSearch = e.target.value;
+  renderGrid();
+});
+
+// ── INIT ──
+renderGrid();
+</script>
+</body>
+</html>
