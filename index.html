@@ -763,7 +763,7 @@ const RECIPES = [
     note: "This is a beloved variation of chicken biryani that's cooked at almost every GP gathering, but there is never enough for everyone as kaku never makes enough (to avoid his fridge being crowded :D).",
     
     ingredients: [
-        "1. Chicken marination:",
+      { header: "Chicken Marination" },
       "Chicken, cut into pieces",
       "Yogurt",
       "Salt",
@@ -773,8 +773,7 @@ const RECIPES = [
       "Fresh mint leaves",
       "Fresh coriander leaves",
 
-        "2. Yakhni:",
-
+      { header: "Yakhni" },
         "Oil",
         "Cinnamon stick",
         "Bay leaf (Tez patta)",
@@ -789,8 +788,7 @@ const RECIPES = [
         "Fresh mint (Pudina)",
         "Fresh coriander (Dhaniya)",
 
-        "3. Rice:",
-
+      { header: "Rice" },
       "Basmati/Long-grain rice",
       "Bay leaf",
       "Black pepper (2–3)",
@@ -835,7 +833,7 @@ function renderGrid() {
     filtered = filtered.filter(r =>
       r.title.toLowerCase().includes(q) ||
       r.author.toLowerCase().includes(q) ||
-      r.ingredients.some(i => i.toLowerCase().includes(q))
+      r.ingredients.some(i => typeof i === 'string' && i.toLowerCase().includes(q))
     );
   }
 
@@ -887,7 +885,11 @@ function openModal(id) {
         <div>
           <h3 class="section-heading">Ingredients</h3>
           <ul class="ingredients-list">
-            ${r.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+            ${r.ingredients.map(ing =>
+              typeof ing === 'object' && ing.header
+                ? `</ul><p style="font-family:'Caveat',cursive; font-size:14px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rust); margin: 14px 0 6px; border-bottom: 1px solid var(--parchment); padding-bottom:4px;">${ing.header}</p><ul class="ingredients-list">`
+                : `<li>${ing}</li>`
+            ).join('')}
           </ul>
         </div>
         <div>
