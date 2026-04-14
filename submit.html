@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit a Recipe — Our Family Kitchen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6ec;
+      --warm-white: #fffaf3;
+      --parchment: #f0e6d0;
+      --tan: #d4b896;
+      --brown: #8b5e3c;
+      --dark-brown: #4a2e1a;
+      --rust: #c0622f;
+      --olive: #7a8c4e;
+      --text: #2d1f0e;
+      --muted: #8a7060;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Lora', serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--dark-brown);
+      padding: 40px 20px 36px;
+      text-align: center;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
+      background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, var(--tan) 12px, var(--tan) 24px);
+    }
+
+    .back-link {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--tan);
+      text-decoration: none;
+      position: absolute;
+      top: 20px; left: 24px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    .eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      color: var(--tan);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 6vw, 52px);
+      color: var(--warm-white);
+      line-height: 1.1;
+    }
+    h1 em { font-style: italic; color: var(--tan); }
+
+    .sub { font-family: 'Lora', serif; font-style: italic; color: var(--tan); font-size: 15px; margin-top: 10px; opacity: 0.75; }
+
+    /* form wrapper */
+    .form-wrap {
+      max-width: 760px;
+      margin: 48px auto 80px;
+      padding: 0 20px;
+    }
+
+    .form-card {
+      background: var(--warm-white);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
+      box-shadow: 4px 4px 0 var(--tan);
+      padding: 36px 40px;
+    }
+
+    @media (max-width: 560px) { .form-card { padding: 24px 20px; } }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--dark-brown);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid var(--parchment);
+    }
+
+    .field-group { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 6px;
+    }
+
+    label .hint {
+      font-family: 'Lora', serif;
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--muted);
+      font-style: italic;
+      margin-left: 6px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      background: var(--cream);
+      border: 1.5px solid var(--tan);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--brown);
+      box-shadow: 0 0 0 3px rgba(139,94,60,0.15);
+    }
+
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 480px) { .three-col { grid-template-columns: 1fr; } }
+
+    /* dynamic list */
+    .dynamic-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+
+    .list-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .list-row input { flex: 1; }
+
+    .remove-btn {
+      background: none;
+      border: 1.5px solid var(--tan);
+      color: var(--muted);
+      width: 34px; height: 34px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .remove-btn:hover { border-color: var(--rust); color: var(--rust); }
+
+    .add-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      background: none;
+      border: 1.5px dashed var(--tan);
+      color: var(--brown);
+      padding: 7px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      text-align: left;
+    }
+    .add-btn:hover { border-color: var(--brown); background: var(--parchment); }
+
+    .divider { border: none; border-top: 1px dashed var(--tan); margin: 32px 0; }
+
+    /* photo upload */
+    .photo-drop {
+      border: 2px dashed var(--tan);
+      border-radius: 4px;
+      background: var(--cream);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .photo-drop:hover, .photo-drop.drag-over { border-color: var(--brown); background: var(--parchment); }
+    .photo-drop input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+      border: none; background: none; box-shadow: none;
+      padding: 0;
+    }
+
+    .photo-icon { font-size: 36px; margin-bottom: 8px; }
+    .photo-label { font-family: 'Caveat', cursive; font-size: 17px; color: var(--brown); }
+    .photo-sub { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 4px; }
+
+    .photo-preview {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;
+    }
+    .preview-thumb {
+      width: 80px; height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1.5px solid var(--tan);
+    }
+
+    /* submit */
+    .submit-btn {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      background: var(--dark-brown);
+      color: var(--warm-white);
+      border: none;
+      padding: 14px 36px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 3px 3px 0 var(--brown);
+    }
+    .submit-btn:hover { background: var(--rust); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--brown); }
+    .submit-btn:active { transform: translate(0,0); box-shadow: 1px 1px 0 var(--brown); }
+
+    /* success */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .success-msg .big { font-size: 56px; margin-bottom: 16px; }
+    .success-msg h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--dark-brown); margin-bottom: 10px; }
+    .success-msg p { font-style: italic; color: var(--muted); font-size: 16px; line-height: 1.6; }
+
+    /* output preview */
+    .code-output {
+      display: none;
+      margin-top: 32px;
+    }
+    .code-output-label {
+      font-family: 'Caveat', cursive;
+      font-size: 15px; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 8px;
+    }
+    .code-box {
+      background: var(--dark-brown);
+      color: #f0e6d0;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 20px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .copy-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      background: var(--rust);
+      color: var(--warm-white);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: var(--brown); }
+
+    footer {
+      background: var(--dark-brown);
+      color: var(--tan);
+      text-align: center;
+      padding: 20px;
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">← Back to recipes</a>
+  <p class="eyebrow">The Family Kitchen</p>
+  <h1>Share a <em>Recipe</em></h1>
+  <p class="sub">Add yours to the collection — future generations will thank you</p>
+</header>
+
+<main class="form-wrap">
+  <div class="form-card">
+
+    <!-- SUCCESS STATE -->
+    <div class="success-msg" id="successMsg">
+      <div class="big">🍽</div>
+      <h2>Recipe submitted!</h2>
+      <p>Your recipe code is ready below. Copy it and send it to whoever manages the website — or paste it into the RECIPES array in <code>index.html</code> yourself.</p>
+    </div>
+
+    <!-- FORM -->
+    <form id="recipeForm" novalidate>
+
+      <!-- BASICS -->
+      <p class="section-title">The Basics</p>
+
+      <div class="field-group">
+        <label>Recipe name <span class="hint">*required</span></label>
+        <input type="text" id="title" placeholder="e.g. Mama's Lamb Stew" required/>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label>Your name <span class="hint">*required</span></label>
+          <input type="text" id="author" placeholder="e.g. Auntie Noor" required/>
+        </div>
+        <div class="field-group">
+          <label>Category</label>
+          <select id="category">
+            <option value="mains">Mains</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="sides">Sides</option>
+            <option value="desserts">Desserts</option>
+            <option value="drinks">Drinks</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="three-col">
+        <div class="field-group">
+          <label>Prep time</label>
+          <input type="text" id="prepTime" placeholder="e.g. 20 min"/>
+        </div>
+        <div class="field-group">
+          <label>Cook time</label>
+          <input type="text" id="cookTime" placeholder="e.g. 1 hr"/>
+        </div>
+        <div class="field-group">
+          <label>Serves</label>
+          <input type="number" id="serves" placeholder="4" min="1"/>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Recipe emoji <span class="hint">pick one that fits</span></label>
+        <input type="text" id="emoji" placeholder="🍲" maxlength="4"/>
+      </div>
+
+      <div class="field-group">
+        <label>A note or story <span class="hint">optional — why is this recipe special?</span></label>
+        <textarea id="note" placeholder="e.g. Grandma made this every Eid…"></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- PHOTO -->
+      <p class="section-title">Photo</p>
+
+      <div class="field-group">
+        <div class="photo-drop" id="photoDrop">
+          <input type="file" id="photoInput" accept="image/*" multiple/>
+          <div class="photo-icon">📷</div>
+          <p class="photo-label">Tap to add a photo</p>
+          <p class="photo-sub">JPG, PNG or WEBP — shows at the top of the recipe card</p>
+        </div>
+        <div class="photo-preview" id="photoPreview"></div>
+        <p style="font-size:12px; color:var(--muted); font-style:italic; margin-top:8px;">
+          Note: photos need to be uploaded separately to the website's <code>images/</code> folder. The filename will be included in the code output below so you know which file to upload.
+        </p>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- INGREDIENTS -->
+      <p class="section-title">Ingredients</p>
+      <p style="font-size:14px; color:var(--muted); font-style:italic; margin-bottom:18px;">
+        Use the section headers (e.g. "Marinade", "Sauce") to group ingredients, just like Kaku's biryani. Leave the header fields empty if you don't need sections.
+      </p>
+
+      <div id="ingredientSections">
+        <!-- Section 1 -->
+        <div class="ingredient-section" data-section="0">
+          <div class="field-group">
+            <label>Section header <span class="hint">optional — e.g. "Marinade"</span></label>
+            <input type="text" class="section-header-input" placeholder="Leave blank if no sections needed"/>
+          </div>
+          <div class="dynamic-list ing-list"></div>
+          <button type="button" class="add-btn add-ing">+ Add ingredient</button>
+        </div>
+      </div>
+
+      <button type="button" class="add-btn" id="addSection" style="margin-top:14px; border-style:solid; color:var(--rust);">
+        + Add another ingredient section
+      </button>
+
+      <hr class="divider"/>
+
+      <!-- STEPS -->
+      <p class="section-title">Instructions</p>
+
+      <div class="dynamic-list" id="stepsList"></div>
+      <button type="button" class="add-btn" id="addStep">+ Add step</button>
+
+      <hr class="divider"/>
+
+      <button type="submit" class="submit-btn">Generate Recipe Code →</button>
+
+    </form>
+
+    <!-- CODE OUTPUT -->
+    <div class="code-output" id="codeOutput">
+      <p class="code-output-label">Your recipe code — paste this into index.html</p>
+      <div class="code-box" id="codeBox"></div>
+      <button class="copy-btn" id="copyBtn">Copy to clipboard</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>The Family Kitchen — preserving recipes one dish at a time</footer>
+
+<script>
+// ── Helpers ──────────────────────────────────────────
+function makeIngRow(placeholder) {
+  const row = document.createElement('div');
+  row.className = 'list-row';
+  row.innerHTML = `<input type="text" placeholder="${placeholder}"/><button type="button" class="remove-btn">×</button>`;
+  row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
+  return row;
+}
+
+function makeStepRow(num) {
+  const row = document.createElement('div');
+  row.className = 'list-row';
+  row.innerHTML = `<input type="text" placeholder="Step ${num}: describe what to do…"/><button type="button" class="remove-btn">×</button>`;
+  row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
+  return row;
+}
+
+// ── Init first section ────────────────────────────────
+function initSection(sec) {
+  const list = sec.querySelector('.ing-list');
+  const addBtn = sec.querySelector('.add-ing');
+  list.appendChild(makeIngRow('e.g. 500g chicken, cut into pieces'));
+  list.appendChild(makeIngRow('e.g. 1 tsp turmeric'));
+  addBtn.addEventListener('click', () => {
+    list.appendChild(makeIngRow('e.g. ingredient'));
+  });
+}
+
+document.querySelectorAll('.ingredient-section').forEach(initSection);
+
+// ── Add section ───────────────────────────────────────
+let sectionCount = 1;
+document.getElementById('addSection').addEventListener('click', () => {
+  const wrap = document.getElementById('ingredientSections');
+  const sec = document.createElement('div');
+  sec.className = 'ingredient-section';
+  sec.dataset.section = sectionCount++;
+  sec.innerHTML = `
+    <hr class="divider" style="margin:20px 0"/>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div class="field-group" style="flex:1; margin:0;">
+        <label>Section header <span class="hint">optional</span></label>
+        <input type="text" class="section-header-input" placeholder="e.g. Rice, Sauce, Topping"/>
+      </div>
+      <button type="button" class="remove-btn" style="margin-left:12px; margin-top:20px;" onclick="this.closest('.ingredient-section').remove()">×</button>
+    </div>
+    <div class="dynamic-list ing-list"></div>
+    <button type="button" class="add-btn add-ing">+ Add ingredient</button>
+  `;
+  wrap.appendChild(sec);
+  initSection(sec);
+});
+
+// ── Steps ─────────────────────────────────────────────
+const stepsList = document.getElementById('stepsList');
+let stepCount = 1;
+function addStep() {
+  stepsList.appendChild(makeStepRow(stepCount++));
+}
+addStep(); addStep(); addStep();
+document.getElementById('addStep').addEventListener('click', addStep);
+
+// ── Photo preview ─────────────────────────────────────
+let uploadedFiles = [];
+document.getElementById('photoInput').addEventListener('change', function() {
+  uploadedFiles = Array.from(this.files);
+  const preview = document.getElementById('photoPreview');
+  preview.innerHTML = '';
+  uploadedFiles.forEach(file => {
+    const img = document.createElement('img');
+    img.className = 'preview-thumb';
+    img.src = URL.createObjectURL(file);
+    preview.appendChild(img);
+  });
+});
+
+const drop = document.getElementById('photoDrop');
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+drop.addEventListener('drop', e => {
+  e.preventDefault();
+  drop.classList.remove('drag-over');
+  document.getElementById('photoInput').files = e.dataTransfer.files;
+  document.getElementById('photoInput').dispatchEvent(new Event('change'));
+});
+
+// ── Generate code ─────────────────────────────────────
+document.getElementById('recipeForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const title = document.getElementById('title').value.trim();
+  const author = document.getElementById('author').value.trim();
+  if (!title || !author) {
+    alert('Please fill in the recipe name and your name.');
+    return;
+  }
+
+  const nextId = Date.now();
+  const category = document.getElementById('category').value;
+  const prepTime = document.getElementById('prepTime').value.trim() || '—';
+  const cookTime = document.getElementById('cookTime').value.trim() || '—';
+  const serves = document.getElementById('serves').value.trim() || '4';
+  const emoji = document.getElementById('emoji').value.trim() || '🍽';
+  const note = document.getElementById('note').value.trim();
+
+  // Photo filenames
+  const photoFiles = uploadedFiles.map(f => f.name);
+  const photoCode = photoFiles.length
+    ? `    image: "images/${photoFiles[0]}",`
+    : `    // image: "images/your-photo.jpg",  ← upload photo to images/ folder and uncomment`;
+
+  // Ingredients
+  const ingredients = [];
+  document.querySelectorAll('.ingredient-section').forEach(sec => {
+    const header = sec.querySelector('.section-header-input').value.trim();
+    if (header) ingredients.push(`{ header: "${header}" }`);
+    sec.querySelectorAll('.ing-list input').forEach(inp => {
+      const v = inp.value.trim();
+      if (v) ingredients.push(`"${v}"`);
+    });
+  });
+
+  // Steps
+  const steps = [];
+  stepsList.querySelectorAll('input').forEach(inp => {
+    const v = inp.value.trim();
+    if (v) steps.push(`"${v}"`);
+  });
+
+  const ingLines = ingredients.map(i => `      ${i}`).join(',\n');
+  const stepLines = steps.map(s => `    ${s}`).join(',\n');
+
+  const code = `{
+    id: ${nextId},
+    title: "${title}",
+    category: "${category}",
+    author: "${author}",
+    emoji: "${emoji}",
+${photoCode}
+    prepTime: "${prepTime}",
+    cookTime: "${cookTime}",
+    serves: ${parseInt(serves) || 4},
+    note: "${note.replace(/"/g, '\\"')}",
+
+    ingredients: [
+${ingLines}
+    ],
+
+    steps: [
+${stepLines}
+    ]
+  },`;
+
+  document.getElementById('codeBox').textContent = code;
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('codeOutput').style.display = 'block';
+  this.style.display = 'none';
+  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// ── Copy ──────────────────────────────────────────────
+document.getElementById('copyBtn').addEventListener('click', function() {
+  navigator.clipboard.writeText(document.getElementById('codeBox').textContent).then(() => {
+    this.textContent = 'Copied!';
+    setTimeout(() => this.textContent = 'Copy to clipboard', 2000);
+  });
+});
+</script>
+</body>
+</html>

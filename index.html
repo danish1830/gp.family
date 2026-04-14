@@ -469,6 +469,7 @@
   <p class="site-name">The GP Family Kitchen</p>
   <h1>Recipes From <em>Home</em></h1>
   <p class="header-sub">Collected with love, one dish at a time</p>
+  <a href="submit.html" style="display:inline-block; margin-top:18px; font-family:'Caveat',cursive; font-size:16px; color:var(--dark-brown); background:var(--tan); padding:8px 22px; border-radius:30px; text-decoration:none; letter-spacing:0.5px; transition:background 0.2s;">+ Submit a Recipe</a>
   <div class="header-border"></div>
 </header>
 
@@ -642,7 +643,10 @@ function renderGrid() {
 
   grid.innerHTML = filtered.map((r, i) => `
     <article class="card" style="animation-delay:${i * 0.07}s" onclick="openModal(${r.id})" role="button" tabindex="0">
-      <div class="card-img" aria-hidden="true">${r.emoji}</div>
+      ${r.image
+        ? `<img class="card-img" src="${r.image}" alt="${r.title}" onerror="this.outerHTML='<div class=\\'card-img\\'>${r.emoji}</div>'">`
+        : `<div class="card-img" aria-hidden="true">${r.emoji}</div>`
+      }
       <div class="card-body">
         <p class="card-tag">${r.category}</p>
         <h2 class="card-title">${r.title}</h2>
@@ -662,7 +666,10 @@ function openModal(id) {
   if (!r) return;
 
   document.getElementById('modalContent').innerHTML = `
-    <div class="modal-hero" aria-hidden="true">${r.emoji}</div>
+    ${r.image
+      ? `<img class="modal-hero" src="${r.image}" alt="${r.title}" onerror="this.style.display='none'">`
+      : `<div class="modal-hero" aria-hidden="true">${r.emoji}</div>`
+    }
     <div class="modal-body">
       <p class="modal-tag">${r.category}</p>
       <h2 class="modal-title">${r.title}</h2>
