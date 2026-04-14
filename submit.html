@@ -7,339 +7,125 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --cream: #fdf6ec;
-      --warm-white: #fffaf3;
-      --parchment: #f0e6d0;
-      --tan: #d4b896;
-      --brown: #8b5e3c;
-      --dark-brown: #4a2e1a;
-      --rust: #c0622f;
-      --olive: #7a8c4e;
-      --text: #2d1f0e;
-      --muted: #8a7060;
+      --cream: #fdf6ec; --warm-white: #fffaf3; --parchment: #f0e6d0;
+      --tan: #d4b896; --brown: #8b5e3c; --dark-brown: #4a2e1a;
+      --rust: #c0622f; --olive: #7a8c4e; --text: #2d1f0e; --muted: #8a7060;
     }
+    body { background: var(--cream); color: var(--text); font-family: 'Lora', serif; min-height: 100vh; }
 
-    body {
-      background: var(--cream);
-      color: var(--text);
-      font-family: 'Lora', serif;
-      min-height: 100vh;
-    }
-
-    header {
-      background: var(--dark-brown);
-      padding: 40px 20px 36px;
-      text-align: center;
-      position: relative;
-    }
-
-    header::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
-      background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, var(--tan) 12px, var(--tan) 24px);
-    }
-
-    .back-link {
-      font-family: 'Caveat', cursive;
-      font-size: 16px;
-      color: var(--tan);
-      text-decoration: none;
-      position: absolute;
-      top: 20px; left: 24px;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-    }
+    header { background: var(--dark-brown); padding: 40px 20px 36px; text-align: center; position: relative; }
+    header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, var(--tan) 12px, var(--tan) 24px); }
+    .back-link { font-family: 'Caveat', cursive; font-size: 16px; color: var(--tan); text-decoration: none; position: absolute; top: 20px; left: 24px; opacity: 0.8; transition: opacity 0.2s; }
     .back-link:hover { opacity: 1; }
-
-    .eyebrow {
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      color: var(--tan);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      opacity: 0.8;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(30px, 6vw, 52px);
-      color: var(--warm-white);
-      line-height: 1.1;
-    }
+    .eyebrow { font-family: 'Caveat', cursive; font-size: 15px; color: var(--tan); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.8; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 6vw, 52px); color: var(--warm-white); line-height: 1.1; }
     h1 em { font-style: italic; color: var(--tan); }
-
     .sub { font-family: 'Lora', serif; font-style: italic; color: var(--tan); font-size: 15px; margin-top: 10px; opacity: 0.75; }
 
-    /* form wrapper */
-    .form-wrap {
-      max-width: 760px;
-      margin: 48px auto 80px;
-      padding: 0 20px;
-    }
+    .form-wrap { max-width: 760px; margin: 48px auto 80px; padding: 0 20px; }
 
-    .form-card {
-      background: var(--warm-white);
-      border: 1px solid var(--tan);
-      border-radius: 4px;
-      box-shadow: 4px 4px 0 var(--tan);
-      padding: 36px 40px;
-    }
+    .setup-banner { background: #fdf3e0; border: 1.5px solid var(--tan); border-radius: 4px; padding: 18px 22px; margin-bottom: 28px; font-size: 14px; line-height: 1.7; color: var(--dark-brown); }
+    .setup-banner strong { font-family: 'Caveat', cursive; font-size: 16px; letter-spacing: 0.5px; color: var(--rust); display: block; margin-bottom: 6px; }
+    .setup-banner ol { padding-left: 18px; margin-top: 8px; }
+    .setup-banner li { margin-bottom: 4px; }
+    .setup-banner a { color: var(--rust); }
+    .setup-banner code { background: var(--parchment); padding: 1px 6px; border-radius: 3px; font-size: 13px; }
 
+    .form-card { background: var(--warm-white); border: 1px solid var(--tan); border-radius: 4px; box-shadow: 4px 4px 0 var(--tan); padding: 36px 40px; }
     @media (max-width: 560px) { .form-card { padding: 24px 20px; } }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      color: var(--dark-brown);
-      margin-bottom: 20px;
-      padding-bottom: 8px;
-      border-bottom: 1.5px solid var(--parchment);
-    }
-
+    .section-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--dark-brown); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1.5px solid var(--parchment); }
     .field-group { margin-bottom: 20px; }
-
-    label {
-      display: block;
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 6px;
+    label { display: block; font-family: 'Caveat', cursive; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; color: var(--rust); margin-bottom: 6px; }
+    label .hint { font-family: 'Lora', serif; font-size: 12px; text-transform: none; letter-spacing: 0; color: var(--muted); font-style: italic; margin-left: 6px; }
+    input[type="text"], input[type="number"], input[type="email"], select, textarea {
+      width: 100%; font-family: 'Lora', serif; font-size: 15px; background: var(--cream);
+      border: 1.5px solid var(--tan); color: var(--text); padding: 10px 14px; border-radius: 4px;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s; appearance: none;
     }
-
-    label .hint {
-      font-family: 'Lora', serif;
-      font-size: 12px;
-      text-transform: none;
-      letter-spacing: 0;
-      color: var(--muted);
-      font-style: italic;
-      margin-left: 6px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea {
-      width: 100%;
-      font-family: 'Lora', serif;
-      font-size: 15px;
-      background: var(--cream);
-      border: 1.5px solid var(--tan);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 4px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      appearance: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--brown);
-      box-shadow: 0 0 0 3px rgba(139,94,60,0.15);
-    }
-
-    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-
+    input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shadow: 0 0 0 3px rgba(139,94,60,0.15); }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
-
     .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-    @media (max-width: 480px) { .three-col { grid-template-columns: 1fr; } }
-
-    /* dynamic list */
-    .dynamic-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-
-    .list-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .list-row input { flex: 1; }
-
-    .remove-btn {
-      background: none;
-      border: 1.5px solid var(--tan);
-      color: var(--muted);
-      width: 34px; height: 34px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-    .remove-btn:hover { border-color: var(--rust); color: var(--rust); }
-
-    .add-btn {
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      background: none;
-      border: 1.5px dashed var(--tan);
-      color: var(--brown);
-      padding: 7px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-      text-align: left;
-    }
-    .add-btn:hover { border-color: var(--brown); background: var(--parchment); }
-
+    @media (max-width: 480px) { .two-col, .three-col { grid-template-columns: 1fr; } }
     .divider { border: none; border-top: 1px dashed var(--tan); margin: 32px 0; }
 
-    /* photo upload */
-    .photo-drop {
-      border: 2px dashed var(--tan);
-      border-radius: 4px;
-      background: var(--cream);
-      padding: 28px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-    }
-    .photo-drop:hover, .photo-drop.drag-over { border-color: var(--brown); background: var(--parchment); }
-    .photo-drop input[type="file"] {
-      position: absolute; inset: 0;
-      opacity: 0; cursor: pointer;
-      width: 100%; height: 100%;
-      border: none; background: none; box-shadow: none;
-      padding: 0;
-    }
+    .dynamic-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .list-row { display: flex; gap: 8px; align-items: flex-start; }
+    .list-row input, .list-row textarea { flex: 1; }
+    .remove-btn { background: none; border: 1.5px solid var(--tan); color: var(--muted); width: 34px; height: 34px; border-radius: 4px; cursor: pointer; font-size: 18px; line-height: 1; flex-shrink: 0; transition: all 0.2s; margin-top: 1px; }
+    .remove-btn:hover { border-color: var(--rust); color: var(--rust); }
+    .add-btn { font-family: 'Caveat', cursive; font-size: 15px; background: none; border: 1.5px dashed var(--tan); color: var(--brown); padding: 7px 16px; border-radius: 4px; cursor: pointer; transition: all 0.2s; width: 100%; text-align: left; }
+    .add-btn:hover { border-color: var(--brown); background: var(--parchment); }
 
-    .photo-icon { font-size: 36px; margin-bottom: 8px; }
-    .photo-label { font-family: 'Caveat', cursive; font-size: 17px; color: var(--brown); }
-    .photo-sub { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 4px; }
+    .sec-header-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .sec-header-row input { flex: 1; }
 
-    .photo-preview {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;
-    }
-    .preview-thumb {
-      width: 80px; height: 80px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1.5px solid var(--tan);
-    }
-
-    /* submit */
-    .submit-btn {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      background: var(--dark-brown);
-      color: var(--warm-white);
-      border: none;
-      padding: 14px 36px;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 12px;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: 3px 3px 0 var(--brown);
-    }
-    .submit-btn:hover { background: var(--rust); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--brown); }
+    .submit-btn { font-family: 'Playfair Display', serif; font-size: 18px; background: var(--dark-brown); color: var(--warm-white); border: none; padding: 14px 36px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 12px; transition: background 0.2s, transform 0.15s; box-shadow: 3px 3px 0 var(--brown); }
+    .submit-btn:hover { background: var(--rust); transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--brown); }
     .submit-btn:active { transform: translate(0,0); box-shadow: 1px 1px 0 var(--brown); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* success */
-    .success-msg {
-      display: none;
-      text-align: center;
-      padding: 48px 24px;
-    }
-    .success-msg .big { font-size: 56px; margin-bottom: 16px; }
-    .success-msg h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--dark-brown); margin-bottom: 10px; }
-    .success-msg p { font-style: italic; color: var(--muted); font-size: 16px; line-height: 1.6; }
+    /* thank you */
+    #thankYou { display: none; text-align: center; padding: 64px 24px 48px; }
+    .ty-emoji { font-size: 72px; margin-bottom: 20px; display: block; animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
+    @keyframes popIn { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .ty-title { font-family: 'Playfair Display', serif; font-size: clamp(32px,6vw,48px); color: var(--dark-brown); margin-bottom: 16px; line-height: 1.15; }
+    .ty-title em { font-style: italic; color: var(--rust); }
+    .ty-msg { font-style: italic; color: var(--muted); font-size: 17px; line-height: 1.75; max-width: 420px; margin: 0 auto 36px; }
+    .ty-back { font-family: 'Caveat', cursive; font-size: 17px; color: var(--dark-brown); background: var(--tan); padding: 10px 28px; border-radius: 30px; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+    .ty-back:hover { background: var(--brown); color: var(--warm-white); }
 
-    /* output preview */
-    .code-output {
-      display: none;
-      margin-top: 32px;
-    }
-    .code-output-label {
-      font-family: 'Caveat', cursive;
-      font-size: 15px; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--rust); margin-bottom: 8px;
-    }
-    .code-box {
-      background: var(--dark-brown);
-      color: #f0e6d0;
-      font-family: monospace;
-      font-size: 13px;
-      line-height: 1.6;
-      padding: 20px;
-      border-radius: 4px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-    .copy-btn {
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      background: var(--rust);
-      color: var(--warm-white);
-      border: none;
-      padding: 8px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
-    }
-    .copy-btn:hover { background: var(--brown); }
-
-    footer {
-      background: var(--dark-brown);
-      color: var(--tan);
-      text-align: center;
-      padding: 20px;
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-    }
+    footer { background: var(--dark-brown); color: var(--tan); text-align: center; padding: 20px; font-family: 'Caveat', cursive; font-size: 15px; }
   </style>
 </head>
 <body>
 
 <header>
   <a class="back-link" href="index.html">← Back to recipes</a>
-  <p class="eyebrow">The Family Kitchen</p>
+  <p class="eyebrow">The GP Family Kitchen</p>
   <h1>Share a <em>Recipe</em></h1>
-  <p class="sub">Add yours to the collection — future generations will thank you</p>
+  <p class="sub">Add yours to the collection — future generations will thank you!</p>
 </header>
 
 <main class="form-wrap">
+
   <div class="form-card">
 
-    <!-- SUCCESS STATE -->
-    <div class="success-msg" id="successMsg">
-      <div class="big">🍽</div>
-      <h2>Recipe submitted!</h2>
-      <p>Your recipe code is ready below. Copy it and send it to whoever manages the website — or paste it into the RECIPES array in <code>index.html</code> yourself.</p>
+    <!-- THANK YOU (shown after submit) -->
+    <div id="thankYou">
+      <span class="ty-emoji">🍽️</span>
+      <h2 class="ty-title">Recipe <em>submitted!</em><br>Thank you.</h2>
+      <p class="ty-msg">Your recipe has been received and will be added to the family collection soon. We're so glad you shared it.</p>
+      <a class="ty-back" href="index.html">← Back to all recipes</a>
     </div>
 
     <!-- FORM -->
-    <form id="recipeForm" novalidate>
+    <form id="recipeForm" action="https://formspree.io/f/xzdyzkdk" method="POST">
 
-      <!-- BASICS -->
       <p class="section-title">The Basics</p>
 
       <div class="field-group">
         <label>Recipe name <span class="hint">*required</span></label>
-        <input type="text" id="title" placeholder="e.g. Mama's Lamb Stew" required/>
+        <input type="text" name="recipe_name" placeholder="e.g. Mama's Lamb Stew" required/>
       </div>
 
       <div class="two-col">
         <div class="field-group">
           <label>Your name <span class="hint">*required</span></label>
-          <input type="text" id="author" placeholder="e.g. Auntie Noor" required/>
+          <input type="text" name="submitted_by" placeholder="e.g. Auntie Noor" required/>
         </div>
         <div class="field-group">
+          <label>Your email <span class="hint">optional</span></label>
+          <input type="email" name="_replyto" placeholder="so we can say thank you"/>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
           <label>Category</label>
-          <select id="category">
+          <select name="category">
             <option value="mains">Mains</option>
             <option value="breakfast">Breakfast</option>
             <option value="sides">Sides</option>
@@ -347,267 +133,168 @@
             <option value="drinks">Drinks</option>
           </select>
         </div>
+        <div class="field-group">
+          <label>Recipe emoji <span class="hint">one that fits</span></label>
+          <input type="text" name="emoji" placeholder="🍲" maxlength="4"/>
+        </div>
       </div>
 
       <div class="three-col">
         <div class="field-group">
           <label>Prep time</label>
-          <input type="text" id="prepTime" placeholder="e.g. 20 min"/>
+          <input type="text" name="prep_time" placeholder="20 min"/>
         </div>
         <div class="field-group">
           <label>Cook time</label>
-          <input type="text" id="cookTime" placeholder="e.g. 1 hr"/>
+          <input type="text" name="cook_time" placeholder="1 hr"/>
         </div>
         <div class="field-group">
           <label>Serves</label>
-          <input type="number" id="serves" placeholder="4" min="1"/>
+          <input type="number" name="serves" placeholder="4" min="1"/>
         </div>
       </div>
 
       <div class="field-group">
-        <label>Recipe emoji <span class="hint">pick one that fits</span></label>
-        <input type="text" id="emoji" placeholder="🍲" maxlength="4"/>
-      </div>
-
-      <div class="field-group">
-        <label>A note or story <span class="hint">optional — why is this recipe special?</span></label>
-        <textarea id="note" placeholder="e.g. Grandma made this every Eid…"></textarea>
+        <label>A note or story <span class="hint">why is this recipe special?</span></label>
+        <textarea name="note" placeholder="e.g. Grandma made this every Eid. The secret is cooking it low and slow…"></textarea>
       </div>
 
       <hr class="divider"/>
 
-      <!-- PHOTO -->
-      <p class="section-title">Photo</p>
-
-      <div class="field-group">
-        <div class="photo-drop" id="photoDrop">
-          <input type="file" id="photoInput" accept="image/*" multiple/>
-          <div class="photo-icon">📷</div>
-          <p class="photo-label">Tap to add a photo</p>
-          <p class="photo-sub">JPG, PNG or WEBP — shows at the top of the recipe card</p>
-        </div>
-        <div class="photo-preview" id="photoPreview"></div>
-        <p style="font-size:12px; color:var(--muted); font-style:italic; margin-top:8px;">
-          Note: photos need to be uploaded separately to the website's <code>images/</code> folder. The filename will be included in the code output below so you know which file to upload.
-        </p>
-      </div>
-
-      <hr class="divider"/>
-
-      <!-- INGREDIENTS -->
       <p class="section-title">Ingredients</p>
-      <p style="font-size:14px; color:var(--muted); font-style:italic; margin-bottom:18px;">
-        Use the section headers (e.g. "Marinade", "Sauce") to group ingredients, just like Kaku's biryani. Leave the header fields empty if you don't need sections.
-      </p>
+      <p style="font-size:14px; color:var(--muted); font-style:italic; margin-bottom:18px;">Use section names (e.g. Marinade, Rice, Sauce) to group ingredients. Leave blank if you don't need sections.</p>
 
-      <div id="ingredientSections">
-        <!-- Section 1 -->
-        <div class="ingredient-section" data-section="0">
-          <div class="field-group">
-            <label>Section header <span class="hint">optional — e.g. "Marinade"</span></label>
-            <input type="text" class="section-header-input" placeholder="Leave blank if no sections needed"/>
-          </div>
-          <div class="dynamic-list ing-list"></div>
-          <button type="button" class="add-btn add-ing">+ Add ingredient</button>
-        </div>
+      <div id="ingredientSections"></div>
+      <button type="button" class="add-btn" id="addSection" style="border-style:solid; color:var(--rust); margin-top:8px;">+ Add ingredient section</button>
+      <textarea name="ingredients" id="ingredientsHidden" style="display:none"></textarea>
+
+      <hr class="divider"/>
+
+      <p class="section-title">Instructions</p>
+      <div id="stepsList"></div>
+      <button type="button" class="add-btn" id="addStep">+ Add step</button>
+      <textarea name="steps" id="stepsHidden" style="display:none"></textarea>
+
+      <hr class="divider"/>
+
+      <p class="section-title">Photo</p>
+      <div class="field-group">
+        <label>Photo note <span class="hint">optional</span></label>
+        <input type="text" name="photo_note" placeholder="e.g. I'll send the photo on WhatsApp — filename: biryani.jpg"/>
+        <p style="font-size:13px; color:var(--muted); font-style:italic; margin-top:8px;">Send the actual photo separately via WhatsApp or email — Formspree's free plan doesn't support file attachments.</p>
       </div>
 
-      <button type="button" class="add-btn" id="addSection" style="margin-top:14px; border-style:solid; color:var(--rust);">
-        + Add another ingredient section
-      </button>
+      <!-- Formspree hidden helpers -->
+      <input type="hidden" name="_subject" value="🍽 New family recipe submitted!"/>
+      <input type="text" name="_gotcha" style="display:none"/>
 
-      <hr class="divider"/>
-
-      <!-- STEPS -->
-      <p class="section-title">Instructions</p>
-
-      <div class="dynamic-list" id="stepsList"></div>
-      <button type="button" class="add-btn" id="addStep">+ Add step</button>
-
-      <hr class="divider"/>
-
-      <button type="submit" class="submit-btn">Generate Recipe Code →</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Recipe →</button>
 
     </form>
-
-    <!-- CODE OUTPUT -->
-    <div class="code-output" id="codeOutput">
-      <p class="code-output-label">Your recipe code — paste this into index.html</p>
-      <div class="code-box" id="codeBox"></div>
-      <button class="copy-btn" id="copyBtn">Copy to clipboard</button>
-    </div>
-
   </div>
 </main>
 
 <footer>The Family Kitchen — preserving recipes one dish at a time</footer>
 
 <script>
-// ── Helpers ──────────────────────────────────────────
-function makeIngRow(placeholder) {
-  const row = document.createElement('div');
-  row.className = 'list-row';
-  row.innerHTML = `<input type="text" placeholder="${placeholder}"/><button type="button" class="remove-btn">×</button>`;
-  row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
-  return row;
-}
-
-function makeStepRow(num) {
-  const row = document.createElement('div');
-  row.className = 'list-row';
-  row.innerHTML = `<input type="text" placeholder="Step ${num}: describe what to do…"/><button type="button" class="remove-btn">×</button>`;
-  row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
-  return row;
-}
-
-// ── Init first section ────────────────────────────────
-function initSection(sec) {
-  const list = sec.querySelector('.ing-list');
-  const addBtn = sec.querySelector('.add-ing');
-  list.appendChild(makeIngRow('e.g. 500g chicken, cut into pieces'));
-  list.appendChild(makeIngRow('e.g. 1 tsp turmeric'));
-  addBtn.addEventListener('click', () => {
-    list.appendChild(makeIngRow('e.g. ingredient'));
-  });
-}
-
-document.querySelectorAll('.ingredient-section').forEach(initSection);
-
-// ── Add section ───────────────────────────────────────
-let sectionCount = 1;
-document.getElementById('addSection').addEventListener('click', () => {
-  const wrap = document.getElementById('ingredientSections');
-  const sec = document.createElement('div');
-  sec.className = 'ingredient-section';
-  sec.dataset.section = sectionCount++;
-  sec.innerHTML = `
-    <hr class="divider" style="margin:20px 0"/>
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div class="field-group" style="flex:1; margin:0;">
-        <label>Section header <span class="hint">optional</span></label>
-        <input type="text" class="section-header-input" placeholder="e.g. Rice, Sauce, Topping"/>
-      </div>
-      <button type="button" class="remove-btn" style="margin-left:12px; margin-top:20px;" onclick="this.closest('.ingredient-section').remove()">×</button>
+// ── Ingredient sections ───────────────────────────────
+function createSection(removable) {
+  const div = document.createElement('div');
+  div.className = 'ingredient-section';
+  div.style.marginBottom = '20px';
+  div.innerHTML = `
+    <div class="sec-header-row">
+      <input type="text" class="sec-name" placeholder="Section name — e.g. Marinade (optional)"/>
+      ${removable ? `<button type="button" class="remove-btn" onclick="this.closest('.ingredient-section').remove()">×</button>` : ''}
     </div>
-    <div class="dynamic-list ing-list"></div>
+    <div class="dynamic-list ing-rows"></div>
     <button type="button" class="add-btn add-ing">+ Add ingredient</button>
   `;
-  wrap.appendChild(sec);
-  initSection(sec);
-});
+  const rows = div.querySelector('.ing-rows');
+  const addBtn = div.querySelector('.add-ing');
+  function addRow(ph) {
+    const r = document.createElement('div');
+    r.className = 'list-row';
+    r.innerHTML = `<input type="text" placeholder="${ph}"/><button type="button" class="remove-btn">×</button>`;
+    r.querySelector('.remove-btn').addEventListener('click', () => r.remove());
+    rows.appendChild(r);
+  }
+  addRow('e.g. 500g chicken, cut into pieces');
+  addRow('e.g. 1 tsp turmeric');
+  addBtn.addEventListener('click', () => addRow('e.g. ingredient'));
+  return div;
+}
+
+const sectionsWrap = document.getElementById('ingredientSections');
+sectionsWrap.appendChild(createSection(false));
+document.getElementById('addSection').addEventListener('click', () => sectionsWrap.appendChild(createSection(true)));
 
 // ── Steps ─────────────────────────────────────────────
 const stepsList = document.getElementById('stepsList');
-let stepCount = 1;
+let stepNum = 1;
 function addStep() {
-  stepsList.appendChild(makeStepRow(stepCount++));
+  const n = stepNum++;
+  const r = document.createElement('div');
+  r.className = 'list-row';
+  r.innerHTML = `<textarea placeholder="Step ${n}: describe what to do…" rows="2" style="flex:1;"></textarea><button type="button" class="remove-btn" style="margin-top:2px;">×</button>`;
+  r.querySelector('.remove-btn').addEventListener('click', () => r.remove());
+  stepsList.appendChild(r);
 }
 addStep(); addStep(); addStep();
 document.getElementById('addStep').addEventListener('click', addStep);
 
-// ── Photo preview ─────────────────────────────────────
-let uploadedFiles = [];
-document.getElementById('photoInput').addEventListener('change', function() {
-  uploadedFiles = Array.from(this.files);
-  const preview = document.getElementById('photoPreview');
-  preview.innerHTML = '';
-  uploadedFiles.forEach(file => {
-    const img = document.createElement('img');
-    img.className = 'preview-thumb';
-    img.src = URL.createObjectURL(file);
-    preview.appendChild(img);
-  });
-});
-
-const drop = document.getElementById('photoDrop');
-drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
-drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
-drop.addEventListener('drop', e => {
-  e.preventDefault();
-  drop.classList.remove('drag-over');
-  document.getElementById('photoInput').files = e.dataTransfer.files;
-  document.getElementById('photoInput').dispatchEvent(new Event('change'));
-});
-
-// ── Generate code ─────────────────────────────────────
+// ── Submit ────────────────────────────────────────────
 document.getElementById('recipeForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const title = document.getElementById('title').value.trim();
-  const author = document.getElementById('author').value.trim();
-  if (!title || !author) {
-    alert('Please fill in the recipe name and your name.');
-    return;
-  }
-
-  const nextId = Date.now();
-  const category = document.getElementById('category').value;
-  const prepTime = document.getElementById('prepTime').value.trim() || '—';
-  const cookTime = document.getElementById('cookTime').value.trim() || '—';
-  const serves = document.getElementById('serves').value.trim() || '4';
-  const emoji = document.getElementById('emoji').value.trim() || '🍽';
-  const note = document.getElementById('note').value.trim();
-
-  // Photo filenames
-  const photoFiles = uploadedFiles.map(f => f.name);
-  const photoCode = photoFiles.length
-    ? `    image: "images/${photoFiles[0]}",`
-    : `    // image: "images/your-photo.jpg",  ← upload photo to images/ folder and uncomment`;
-
-  // Ingredients
-  const ingredients = [];
+  // Pack ingredients into hidden textarea
+  const ingLines = [];
   document.querySelectorAll('.ingredient-section').forEach(sec => {
-    const header = sec.querySelector('.section-header-input').value.trim();
-    if (header) ingredients.push(`{ header: "${header}" }`);
-    sec.querySelectorAll('.ing-list input').forEach(inp => {
+    const name = sec.querySelector('.sec-name').value.trim();
+    if (name) ingLines.push(`[${name.toUpperCase()}]`);
+    sec.querySelectorAll('.ing-rows input').forEach(inp => {
       const v = inp.value.trim();
-      if (v) ingredients.push(`"${v}"`);
+      if (v) ingLines.push('• ' + v);
     });
   });
+  document.getElementById('ingredientsHidden').value = ingLines.join('\n');
 
-  // Steps
-  const steps = [];
-  stepsList.querySelectorAll('input').forEach(inp => {
-    const v = inp.value.trim();
-    if (v) steps.push(`"${v}"`);
+  // Pack steps into hidden textarea
+  const stepLines = [];
+  let i = 1;
+  stepsList.querySelectorAll('textarea').forEach(ta => {
+    const v = ta.value.trim();
+    if (v) stepLines.push(`${i++}. ${v}`);
   });
+  document.getElementById('stepsHidden').value = stepLines.join('\n\n');
 
-  const ingLines = ingredients.map(i => `      ${i}`).join(',\n');
-  const stepLines = steps.map(s => `    ${s}`).join(',\n');
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
 
-  const code = `{
-    id: ${nextId},
-    title: "${title}",
-    category: "${category}",
-    author: "${author}",
-    emoji: "${emoji}",
-${photoCode}
-    prepTime: "${prepTime}",
-    cookTime: "${cookTime}",
-    serves: ${parseInt(serves) || 4},
-    note: "${note.replace(/"/g, '\\"')}",
-
-    ingredients: [
-${ingLines}
-    ],
-
-    steps: [
-${stepLines}
-    ]
-  },`;
-
-  document.getElementById('codeBox').textContent = code;
-  document.getElementById('successMsg').style.display = 'block';
-  document.getElementById('codeOutput').style.display = 'block';
-  this.style.display = 'none';
-  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-// ── Copy ──────────────────────────────────────────────
-document.getElementById('copyBtn').addEventListener('click', function() {
-  navigator.clipboard.writeText(document.getElementById('codeBox').textContent).then(() => {
-    this.textContent = 'Copied!';
-    setTimeout(() => this.textContent = 'Copy to clipboard', 2000);
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(res => {
+    if (res.ok) {
+      this.style.display = 'none';
+      const banner = document.getElementById('setupBanner');
+      if (banner) banner.style.display = 'none';
+      const ty = document.getElementById('thankYou');
+      ty.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Submit Recipe →';
+      alert('Something went wrong. Make sure YOUR_FORM_ID has been replaced with your Formspree ID.');
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Submit Recipe →';
+    alert('Could not send — check your internet connection and try again.');
   });
 });
 </script>
